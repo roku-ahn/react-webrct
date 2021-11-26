@@ -1,0 +1,12 @@
+.main {
+  margin: 10;
+  padding: 10;
+  /*  border: 1px solid black;*/
+  position: static;
+  left: 200;
+  display: flex;
+  flex-wrap: wrap;
+
+  /* height: auto;*/
+  overflow: auto;
+}
