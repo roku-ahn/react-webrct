@@ -31,13 +31,13 @@ const coturn_config = {
     MSG : "message",
   };
   
-  const SOCKET_SERVER_URL = "http://127.0.0.1:7000"; //node server
+  const SOCKET_SERVER_URL = "localhost:7000"; //node server
   const Rct = ({}) => {
 
     const  sokcetRef =useRef();
-    let room = "rctRoom";
+    let room = "room1";
 useEffect(() => {    
-  sokcetRef.current = io.connect(SOCKET_SERVER_URL);
+  sokcetRef.current = io.connect(SOCKET_SERVER_URL,{transports:['websocket']});
 
   const socket= sokcetRef.current;
 
@@ -47,8 +47,11 @@ socket.on(SOCKET_EVENT.IP, function(ipaddr) {
  
 });
 
-socket.on(SOCKET_EVENT.CREATED, function(room, clientId) {
-  console.log('Created room', room, '- my client ID is', clientId);
+socket.on(SOCKET_EVENT.CREATED, ({room, clientId}) => {
+  console.log(SOCKET_EVENT.CREATED , room, '- my client ID is', clientId);
+  if(socket.connect().connected){
+    console.log("alive");
+  }
   //isInitiator = true;
   //grabWebCamVideo();
 });
@@ -77,19 +80,21 @@ socket.on(SOCKET_EVENT.MSG, function(message) {
 });
 
 // Joining a room.
-socket.emit(SOCKET_EVENT.CREATEROOM, room);
+
 
 if (window.location.hostname.match(/localhost|127\.0\.0/)) {
   socket.emit(SOCKET_EVENT.IP);
 }
-
+socket.emit(SOCKET_EVENT.CREATEROOM, room);
 // Leaving rooms and disconnecting from peers.
 socket.on(SOCKET_EVENT.DISCONNECTED, function(reason) {
   console.log(`Disconnected: ${reason}.`);
   //sendBtn.disabled = true;
   //snapAndSendBtn.disabled = true;
 });
-
+if(socket.connect().connected){
+  console.log("alive");
+}
 socket.emit(SOCKET_EVENT.MSG, "Hello~");
  
     return () => {
