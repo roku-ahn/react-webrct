@@ -10,3 +10,19 @@
   /* height: auto;*/
   overflow: auto;
 }
+
+.canvas {
+  border: 1px solid black;
+  width: 320px;
+  max-width: 100%;
+}
+video {
+  margin: 0 10px 0 0;
+  width: calc(50% - 7px);
+}
+@media screen and (max-width: 400px) {
+  video {
+    max-width: 400px;
+    width: calc(50% - 5px);
+  }
+}

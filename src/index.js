@@ -6,7 +6,9 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    
     <App />
+    <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   </React.StrictMode>,
   document.getElementById('root')
 );
